@@ -1,0 +1,62 @@
+void setup()
+{
+  pinMode(4, OUTPUT);
+  Serial.begin(9600);
+}
+int coming;
+
+void loop()
+{
+if(Serial.available()>0)
+    {
+      coming = Serial.read();
+      switch(coming){
+        case 'a':{morsedot();morsedash();break;}
+        case 'b':{morsedash();morsedot();morsedot();morsedot();break;}
+        case 'c':{morsedash();morsedot();morsedash();morsedot();break;}
+        case 'd':{morsedash();morsedot();morsedot();break;}
+        case 'e':{morsedot();break;}
+        case 'f':{morsedot();morsedot();morsedash();morsedot();break;}
+        case 'g':{morsedash();morsedash();morsedot();break;}
+        case 'h':{morsedot();morsedot();morsedot();morsedot();break;}
+        case 'i':{morsedot();morsedot();break;}
+        case 'j':{morsedot();morsedash();morsedash();morsedash();break;}
+        case 'k':{morsedash();morsedot();morsedash();break;}
+        case 'l':{morsedot();morsedash();morsedot();morsedot();break;}
+        case 'm':{morsedash();morsedash();break;}
+        case 'n':{morsedash();morsedot();break;}
+        case 'o':{morsedash();morsedash();morsedash();break;}
+        case 'p':{morsedot();morsedash();morsedash();morsedot();break;}
+        case 'q':{morsedash();morsedash();morsedot();morsedash();break;}
+        case 'r':{morsedot();morsedash();morsedot();break;}
+        case 's':{morsedot();morsedot();morsedot();break;}
+        case 't':{morsedash();break;}
+        case 'u':{morsedot();morsedot();morsedash();break;}
+        case 'v':{morsedot();morsedot();morsedot();morsedash();break;}
+        case 'w':{morsedot();morsedash();morsedash();break;}
+        case 'x':{morsedash();morsedot();morsedot();morsedash();break;}
+        case 'y':{morsedash();morsedot();morsedash();morsedash();break;}
+        case 'z':{morsedash();morsedash();morsedot();morsedot();break;}
+        case ' ':{delay(250*7);break;}
+        defalt:break;
+        }
+    delay(250);
+     
+    }
+}
+
+void morsedot()
+{
+	digitalWrite(4,HIGH);
+	delay(250);
+	digitalWrite(4,LOW);
+	delay(250);
+}
+
+void morsedash()
+{
+	digitalWrite(4,HIGH);
+	delay(1000);
+	digitalWrite(4,LOW);
+	delay(250);
+}
