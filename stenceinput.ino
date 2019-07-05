@@ -1,6 +1,5 @@
 #include <Morse.h>
-int coming[100];
-int i=0,j;
+int coming;
 Morse morse(13);
 
 void setup() {
@@ -10,14 +9,9 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  while(Serial.available()>0&&Serial.read()!='\n')
-    {
-      coming[i] = Serial.read();
-      i++;
-    }
-    for(j=0;j<i;j++)
-    {
-      switch(coming[j]){
+  if(Serial.available()>0)
+  {    coming = Serial.read();
+       switch(coming){
         case 'a':{morse.dot();morse.dash();break;}
         case 'b':{morse.dash();morse.dot();morse.dot();morse.dot();break;}
         case 'c':{morse.dash();morse.dot();morse.dash();morse.dot();break;}
@@ -47,5 +41,5 @@ void loop() {
         case ' ':{delay(250*7);break;}
         }
         delay(250);
-      }
+    }
 }
