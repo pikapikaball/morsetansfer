@@ -1,0 +1,270 @@
+#开源硬件课程总结
+##第一天 入门介绍
+###为什么要学习开源硬件
+通过编程和软件下载到硬件上，可以做自己想做的相应功能的东西，锻炼动手能力实践能力。
+###如何学习开源硬件
+在学会操作软硬件（编程及基本电子电路知识）的基础上，多思考多创新新功能的硬件，并通过软件将其实现，即应同时提高编程能力及创新思维能力。
+###几个常用软件
+####arduino
+www.arduino.cn
+编程并下载到arduino板子上，利用数字信号实现各种电路功能。
+####fritzing
+www.fritzing.org
+电路图制作软件，模拟实体硬件连接线路图。
+####processing
+www.processing.org
+###几个常用网站
+####github
+www.github.com
+上传下载源代码，分享各种工程。
+
+##第二天 软件操作
+###arduino安装
+###arduino文档
+###arduino基本操作
+文本框编写代码；具有类库导入功能；编译并下载代码到arduino板子。
+###arduino类库操作
+    #ifndef 头文件名
+    #define 头文件名
+	类名
+	{
+	  public:
+		函数1；
+		函数2；
+		……；
+	  private:
+		函数3；
+		……；
+	};
+	#endif
+
+###实例：morse代码
+	#include <Morse.h>
+	int coming;
+	Morse morse(13);
+
+	void setup() {
+	  // put your setup code here, to run once:
+	  Serial.begin(9600);
+	}
+
+	void loop() {
+	  // put your main code here, to run repeatedly:
+	  if(Serial.available()>0)
+	  {    coming = Serial.read();
+		   switch(coming){
+			case 'a':{morse.dot();morse.dash();break;}
+			case 'b':{morse.dash();morse.dot();morse.dot();morse.dot();break;}
+			case 'c':{morse.dash();morse.dot();morse.dash();morse.dot();break;}
+			case 'd':{morse.dash();morse.dot();morse.dot();break;}
+			case 'e':{morse.dot();break;}
+			case 'f':{morse.dot();morse.dot();morse.dash();morse.dot();break;}
+			case 'g':{morse.dash();morse.dash();morse.dot();break;}
+			case 'h':{morse.dot();morse.dot();morse.dot();morse.dot();break;}
+			case 'i':{morse.dot();morse.dot();break;}
+			case 'j':{morse.dot();morse.dash();morse.dash();morse.dash();break;}
+			case 'k':{morse.dash();morse.dot();morse.dash();break;}
+			case 'l':{morse.dot();morse.dash();morse.dot();morse.dot();break;}
+			case 'm':{morse.dash();morse.dash();break;}
+			case 'n':{morse.dash();morse.dot();break;}
+			case 'o':{morse.dash();morse.dash();morse.dash();break;}
+			case 'p':{morse.dot();morse.dash();morse.dash();morse.dot();break;}
+			case 'q':{morse.dash();morse.dash();morse.dot();morse.dash();break;}
+			case 'r':{morse.dot();morse.dash();morse.dot();break;}
+			case 's':{morse.dot();morse.dot();morse.dot();break;}
+			case 't':{morse.dash();break;}
+			case 'u':{morse.dot();morse.dot();morse.dash();break;}
+			case 'v':{morse.dot();morse.dot();morse.dot();morse.dash();break;}
+			case 'w':{morse.dot();morse.dash();morse.dash();break;}
+			case 'x':{morse.dash();morse.dot();morse.dot();morse.dash();break;}
+			case 'y':{morse.dash();morse.dot();morse.dash();morse.dash();break;}
+			case 'z':{morse.dash();morse.dash();morse.dot();morse.dot();break;}
+			case ' ':{delay(250*7);break;}
+			}
+			delay(250);
+		}
+	}
+##第三天 元器件及电路图
+###使用在线模拟网站
+tinkercad模拟真实元器件连接电路图，傻瓜式使用。
+###小车电路图及代码
+	int income;
+
+	void setup()
+	{
+	  pinMode(5, OUTPUT);
+	  pinMode(6, OUTPUT);
+	  pinMode(9, OUTPUT);
+	  pinMode(10, OUTPUT);
+	  Serial.begin(9600);
+	}
+
+	void loop()
+	{
+	  if(Serial.available()>0)
+	  {
+		income=Serial.read();
+	  }
+	  switch(income)
+	  {
+		case'f':
+			forward();break;
+		case'b':
+			backward();break;
+		case'r':
+			right();break;
+		case'l':
+			left();break;
+		case's':
+			stop();break;
+		default:
+			break;
+
+	  }
+	}
+
+	void forward()
+	{
+		digitalWrite(5,HIGH);
+		digitalWrite(6,LOW);
+		digitalWrite(9,HIGH);
+		digitalWrite(10,LOW);
+	}
+
+	void backward()
+	{
+		digitalWrite(6,HIGH);
+		digitalWrite(5,LOW);
+		digitalWrite(10,HIGH);
+		digitalWrite(9,LOW);
+	}
+
+	void left()
+	{
+		digitalWrite(5,HIGH);
+		digitalWrite(6,LOW);
+		digitalWrite(9,LOW);
+		digitalWrite(10,LOW);
+	}
+
+	void right()
+	{
+		digitalWrite(5,LOW);
+		digitalWrite(6,LOW);
+		digitalWrite(9,HIGH);
+		digitalWrite(10,LOW);
+	}
+
+	void stop()
+	{
+		digitalWrite(5,LOW);
+		digitalWrite(6,LOW);
+		digitalWrite(9,LOW);
+		digitalWrite(10,LOW);
+	}
+###7位译码器使用
+	int input;
+	void setup()
+	{
+	  pinMode(0, OUTPUT);
+	  pinMode(1, OUTPUT);
+	  pinMode(2, OUTPUT);
+	  pinMode(3, OUTPUT);
+	  pinMode(4, OUTPUT);
+	  Serial.begin(9600);
+	}
+
+	void loop()
+	{
+	  if(Serial.available()>0)
+	  {
+		input=Serial.read();
+		input=input-'0';
+		digitalWrite(0,LOW);
+		delay(10);
+		if(input&0x1)
+		  digitalWrite(1,HIGH);
+		else 
+		  digitalWrite(1,LOW);
+		if((input>>1)&0x1)
+		  digitalWrite(2,HIGH);
+		else 
+		  digitalWrite(2,LOW);
+		if((input>>2)&0x1)
+		  digitalWrite(3,HIGH);
+		else 
+		  digitalWrite(3,LOW);
+		if((input>>3)&0x1)
+		  digitalWrite(4,HIGH);
+		else 
+		  digitalWrite(4,LOW);
+		digitalWrite(0,HIGH);
+		delay(10);
+	  }
+	}
+##第四天 总结及答疑
+###morse码函数形式模拟实现
+	void setup()
+	{
+	  pinMode(4, OUTPUT);
+	  Serial.begin(9600);
+	}
+	int coming;
+
+	void loop()
+	{
+	if(Serial.available()>0)
+		{
+		  coming = Serial.read();
+		  switch(coming){
+			case 'a':{morsedot();morsedash();break;}
+			case 'b':{morsedash();morsedot();morsedot();morsedot();break;}
+			case 'c':{morsedash();morsedot();morsedash();morsedot();break;}
+			case 'd':{morsedash();morsedot();morsedot();break;}
+			case 'e':{morsedot();break;}
+			case 'f':{morsedot();morsedot();morsedash();morsedot();break;}
+			case 'g':{morsedash();morsedash();morsedot();break;}
+			case 'h':{morsedot();morsedot();morsedot();morsedot();break;}
+			case 'i':{morsedot();morsedot();break;}
+			case 'j':{morsedot();morsedash();morsedash();morsedash();break;}
+			case 'k':{morsedash();morsedot();morsedash();break;}
+			case 'l':{morsedot();morsedash();morsedot();morsedot();break;}
+			case 'm':{morsedash();morsedash();break;}
+			case 'n':{morsedash();morsedot();break;}
+			case 'o':{morsedash();morsedash();morsedash();break;}
+			case 'p':{morsedot();morsedash();morsedash();morsedot();break;}
+			case 'q':{morsedash();morsedash();morsedot();morsedash();break;}
+			case 'r':{morsedot();morsedash();morsedot();break;}
+			case 's':{morsedot();morsedot();morsedot();break;}
+			case 't':{morsedash();break;}
+			case 'u':{morsedot();morsedot();morsedash();break;}
+			case 'v':{morsedot();morsedot();morsedot();morsedash();break;}
+			case 'w':{morsedot();morsedash();morsedash();break;}
+			case 'x':{morsedash();morsedot();morsedot();morsedash();break;}
+			case 'y':{morsedash();morsedot();morsedash();morsedash();break;}
+			case 'z':{morsedash();morsedash();morsedot();morsedot();break;}
+			case ' ':{delay(250*7);break;}
+			defalt:break;
+			}
+		delay(250);
+
+		}
+	}
+
+	void morsedot()
+	{
+		digitalWrite(4,HIGH);
+		delay(250);
+		digitalWrite(4,LOW);
+		delay(250);
+	}
+
+	void morsedash()
+	{
+		digitalWrite(4,HIGH);
+		delay(1000);
+		digitalWrite(4,LOW);
+		delay(250);
+	}
+###开源硬件心得体会
+开源硬件与数字模拟电路等课程联系紧密，主要掌握了可编程板的使用方法，长远考虑，可以与数电的知识相结合，创建更复杂的电路以实现更复杂更全面的功能。对github的认识为我介绍了一个更广的平台，也是一个更好的记录平台，让我能更清晰地看到我每一天的代码量。
